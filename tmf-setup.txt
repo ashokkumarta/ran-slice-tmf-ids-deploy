@@ -1,0 +1,117 @@
+# Build dataapps
+d:
+cd D:\Ashok\Work\IDS\git\tmf-ids-test\dataapps
+cd csp-sharing-agent-app
+docker image rm ashokkumarta/csp-sharing-agent-app:latest
+docker build -t ashokkumarta/csp-sharing-agent-app:latest .
+docker push ashokkumarta/csp-sharing-agent-app:latest
+cd ..\mno1-sharing-agent-app
+docker image rm ashokkumarta/mno1-sharing-agent-app:latest
+docker build -t ashokkumarta/mno1-sharing-agent-app:latest .
+docker push ashokkumarta/mno1-sharing-agent-app:latest
+cd ..\mno2-sharing-agent-app
+docker image rm ashokkumarta/mno2-sharing-agent-app:latest
+docker build -t ashokkumarta/mno2-sharing-agent-app:latest .
+docker push ashokkumarta/mno2-sharing-agent-app:latest
+cd ..\regulator-recommendations-app
+docker image rm ashokkumarta/regulator-recommendations-app:latest
+docker build -t ashokkumarta/regulator-recommendations-app:latest .
+docker push ashokkumarta/regulator-recommendations-app:latest
+cd ..\recommendations-processor-app
+docker image rm ashokkumarta/recommendations-processor-app:latest
+docker build -t ashokkumarta/recommendations-processor-app:latest .
+docker push ashokkumarta/recommendations-processor-app:latest
+cd ..\regulator-usage-data-processor-app
+docker image rm ashokkumarta/regulator-usage-data-processor-app:latest
+docker build -t ashokkumarta/regulator-usage-data-processor-app:latest .
+docker push ashokkumarta/regulator-usage-data-processor-app:latest
+cd ..\csp-recommendations-feedback-app
+docker image rm ashokkumarta/csp-recommendations-feedback-app:latest
+docker build -t ashokkumarta/csp-recommendations-feedback-app:latest .
+docker push ashokkumarta/csp-recommendations-feedback-app:latest
+cd ..\mno1-recommendations-feedback-app
+docker image rm ashokkumarta/mno1-recommendations-feedback-app:latest
+docker build -t ashokkumarta/mno1-recommendations-feedback-app:latest .
+docker push ashokkumarta/mno1-recommendations-feedback-app:latest
+cd ..\mno2-recommendations-feedback-app
+docker image rm ashokkumarta/mno2-recommendations-feedback-app:latest
+docker build -t ashokkumarta/mno2-recommendations-feedback-app:latest .
+docker push ashokkumarta/mno2-recommendations-feedback-app:latest
+cd ..\regulator-recommendations-incentive-app
+docker image rm ashokkumarta/regulator-recommendations-incentive-app:latest
+docker build -t ashokkumarta/regulator-recommendations-incentive-app:latest .
+docker push ashokkumarta/regulator-recommendations-incentive-app:latest
+cd ..\recommendations-incentive-processor-app
+docker image rm ashokkumarta/recommendations-incentive-processor-app:latest
+docker build -t ashokkumarta/recommendations-incentive-processor-app:latest .
+docker push ashokkumarta/recommendations-incentive-processor-app:latest
+cd ..\regulator-recommendations-feedback-processor-app
+docker image rm ashokkumarta/regulator-recommendations-feedback-processor-app:latest
+docker build -t ashokkumarta/regulator-recommendations-feedback-processor-app:latest .
+docker push ashokkumarta/regulator-recommendations-feedback-processor-app:latest
+cd ..
+
+
+csp-recommendations-feedback-app
+mno1-recommendations-feedback-app
+mno2-recommendations-feedback-app
+regulator-recommendations-incentive-app
+
+
+
+recommendations-processor
+
+regulator-recommendations-app
+
+
+#End build dataapps
+
+#Certs
+
+d:
+cd D:\Ashok\Work\IDS\git\ran-slice-tmf-ids-deploy\certs\tmf
+copy ..\etc-locked\truststore.p12 truststore.p12
+
+copy ..\etc-locked\consumer-keystore.p12 ibusiness.p12
+keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore ibusiness.p12 -storepass password -ext "SAN=DNS:ibusiness"
+keytool -export -alias 1 -storetype PKCS12 -storepass password -file ibusiness.cer -keystore ibusiness.p12
+keytool -import -noprompt -v -trustcacerts -alias ibusiness -storetype PKCS12 -file ibusiness.cer -keystore truststore.p12 -keypass password -storepass password
+
+copy ..\etc-locked\consumer-keystore.p12 personX.p12
+keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore personX.p12 -storepass password -ext "SAN=DNS:personX"
+keytool -export -alias 1 -storetype PKCS12 -storepass password -file personX.cer -keystore personX.p12
+keytool -import -noprompt -v -trustcacerts -alias personX -storetype PKCS12 -file personX.cer -keystore truststore.p12 -keypass password -storepass password
+
+copy ..\etc-locked\consumer-keystore.p12 zbusiness.p12
+keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore zbusiness.p12 -storepass password -ext "SAN=DNS:zbusiness"
+keytool -export -alias 1 -storetype PKCS12 -storepass password -file zbusiness.cer -keystore zbusiness.p12
+keytool -import -noprompt -v -trustcacerts -alias zbusiness -storetype PKCS12 -file zbusiness.cer -keystore truststore.p12 -keypass password -storepass password
+
+copy ..\etc-locked\consumer-keystore.p12 isp.p12
+keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore isp.p12 -storepass password -ext "SAN=DNS:isp"
+keytool -export -alias 1 -storetype PKCS12 -storepass password -file isp.cer -keystore isp.p12
+keytool -import -noprompt -v -trustcacerts -alias isp -storetype PKCS12 -file isp.cer -keystore truststore.p12 -keypass password -storepass password
+
+
+copy ..\etc-locked\consumer-keystore.p12 ran-regulator.p12
+keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore ran-regulator.p12 -storepass password -ext "SAN=DNS:ran-regulator"
+keytool -export -alias 1 -storetype PKCS12 -storepass password -file ran-regulator.cer -keystore ran-regulator.p12
+keytool -import -noprompt -v -trustcacerts -alias ran-regulator -storetype PKCS12 -file ran-regulator.cer -keystore truststore.p12 -keypass password -storepass password
+
+keytool -list -storetype PKCS12 -v -keystore truststore.p12 -storepass password 
+
+del /F /Q etc\* 
+
+move *.p12 etc\.
+
+#end certs
+
+
+
+docker-compose -f docker-compose-server.yaml up
+docker-compose -f docker-compose-client.yaml up
+
+ashokkumarta/recommendations-processor-app@sha256:a698c89cb5ea58ed804a928103a6e465bb6adc67941be740c4369a070c15a29b
+
+jmalloc/echo-server@sha256:c461e7e54d947a8777413aaf9c624b4ad1f1bac5d8272475da859ae82c1abd7d
+
