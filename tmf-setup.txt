@@ -92,12 +92,6 @@ keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore isp.p12
 keytool -export -alias 1 -storetype PKCS12 -storepass password -file isp.cer -keystore isp.p12
 keytool -import -noprompt -v -trustcacerts -alias isp -storetype PKCS12 -file isp.cer -keystore truststore.p12 -keypass password -storepass password
 
-
-copy ..\etc-locked\consumer-keystore.p12 ran-regulator.p12
-keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore ran-regulator.p12 -storepass password -ext "SAN=DNS:ran-regulator"
-keytool -export -alias 1 -storetype PKCS12 -storepass password -file ran-regulator.cer -keystore ran-regulator.p12
-keytool -import -noprompt -v -trustcacerts -alias ran-regulator -storetype PKCS12 -file ran-regulator.cer -keystore truststore.p12 -keypass password -storepass password
-
 keytool -list -storetype PKCS12 -v -keystore truststore.p12 -storepass password 
 
 del /F /Q etc\* 
