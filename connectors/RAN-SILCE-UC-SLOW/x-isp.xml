@@ -44,19 +44,19 @@
 	<camelContext
 		xmlns="http://camel.apache.org/schema/spring">
 
-		<route id="usage-data-contract">
-			<from uri="timer://usageDataContractRequest?repeatCount=1" />
+		<route id="slicing-request-contract">
+			<from uri="timer://slicingDataContractRequest?repeatCount=1" />
 
 			<log
-				message="### USAGE DATA - Initiating request for Contract ###" />
+				message="### SLICING REQUEST - Initiating request for Contract ###" />
 
 			<setProperty name="artifactUri">
-				<constant>https://catalyst.tmf/ran-share/usage-data</constant>
+				<constant>https://catalyst.tmf/ran-slice/slicing-request</constant>
 			</setProperty>
 			<process ref="TMFArtifactInitProcessor" />
 
 			<log
-				message="### USAGE DATA - Requesting to 'request for contract' ###" />
+				message="### SLICING REQUEST - Requesting to 'request for contract' ###" />
 			<process ref="ContractRequestCreationProcessor" />
 			<to
 				uri="idscp2client://ran-regulator:29292?awaitResponse=true&amp;connectionShareId=udConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
