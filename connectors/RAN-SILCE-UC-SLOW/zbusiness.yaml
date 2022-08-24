@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  # The core platform, mounts docker control socket and route definition into the image
+  zbusiness:
+    image: ashokkumarta/ids-trusted-connector
+    tty: true
+    stdin_open: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../deploy/allow-all-flows.pl:/root/deploy/allow-all-flows.pl
+      - ../etc/settings-zbusiness.mapdb:/root/etc/settings.mapdb
+      - ../etc/zbusiness.p12:/root/etc/zbusiness.p12
+      - ../etc/truststore.p12:/root/etc/truststore.p12
+      - ./zbusiness.xml:/root/deploy/zbusiness.xml
+    # Enable this port mappings for debugging or UI access from localhost
+    ports:
+      - "9081:8080"
+    networks:
+      - ids-local
+
+  zbusiness-slicing-request-generator:
+    image: ashokkumarta/zbusiness-slicing-request-generator
+    networks:
+      - ids-local
+
+networks:
+  ids-local:
+    driver: bridge    
+    
