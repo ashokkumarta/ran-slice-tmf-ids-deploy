@@ -137,7 +137,7 @@
 					<log
 						message="SLICING REQUEST - Generating slicing request from personx-slicing-request-generator..." />
 
-					<to uri="http://personx:9294?awaitResponse=true" />
+					<to uri="http://personx-slicing-request-generator:9294?awaitResponse=true" />
 
 					<log
 						message="SLICING REQUEST - Pushing slicing request as payload in IDS response..." />
