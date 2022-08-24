@@ -89,7 +89,7 @@
 					<setHeader name="content-type">
 						<simple>text/plain</simple>
 					</setHeader>
-					<to uri="http://isp-slicing-request-processor:9999?awaitResponse=true" />
+					<to uri="http://isp-slicing-request-processor:9291?awaitResponse=true" />
 
 					<log
 						message="SLICING REQUEST - Response from processing slicing request: \n${body}" />

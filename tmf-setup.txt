@@ -1,96 +1,81 @@
+
+
 # Build dataapps
 d:
-cd D:\Ashok\Work\IDS\git\tmf-ids-test\dataapps
-cd csp-sharing-agent-app
-docker image rm ashokkumarta/csp-sharing-agent-app:latest
-docker build -t ashokkumarta/csp-sharing-agent-app:latest .
-docker push ashokkumarta/csp-sharing-agent-app:latest
-cd ..\mno1-sharing-agent-app
-docker image rm ashokkumarta/mno1-sharing-agent-app:latest
-docker build -t ashokkumarta/mno1-sharing-agent-app:latest .
-docker push ashokkumarta/mno1-sharing-agent-app:latest
-cd ..\mno2-sharing-agent-app
-docker image rm ashokkumarta/mno2-sharing-agent-app:latest
-docker build -t ashokkumarta/mno2-sharing-agent-app:latest .
-docker push ashokkumarta/mno2-sharing-agent-app:latest
-cd ..\regulator-recommendations-app
-docker image rm ashokkumarta/regulator-recommendations-app:latest
-docker build -t ashokkumarta/regulator-recommendations-app:latest .
-docker push ashokkumarta/regulator-recommendations-app:latest
-cd ..\recommendations-processor-app
-docker image rm ashokkumarta/recommendations-processor-app:latest
-docker build -t ashokkumarta/recommendations-processor-app:latest .
-docker push ashokkumarta/recommendations-processor-app:latest
-cd ..\regulator-usage-data-processor-app
-docker image rm ashokkumarta/regulator-usage-data-processor-app:latest
-docker build -t ashokkumarta/regulator-usage-data-processor-app:latest .
-docker push ashokkumarta/regulator-usage-data-processor-app:latest
-cd ..\csp-recommendations-feedback-app
-docker image rm ashokkumarta/csp-recommendations-feedback-app:latest
-docker build -t ashokkumarta/csp-recommendations-feedback-app:latest .
-docker push ashokkumarta/csp-recommendations-feedback-app:latest
-cd ..\mno1-recommendations-feedback-app
-docker image rm ashokkumarta/mno1-recommendations-feedback-app:latest
-docker build -t ashokkumarta/mno1-recommendations-feedback-app:latest .
-docker push ashokkumarta/mno1-recommendations-feedback-app:latest
-cd ..\mno2-recommendations-feedback-app
-docker image rm ashokkumarta/mno2-recommendations-feedback-app:latest
-docker build -t ashokkumarta/mno2-recommendations-feedback-app:latest .
-docker push ashokkumarta/mno2-recommendations-feedback-app:latest
-cd ..\regulator-recommendations-incentive-app
-docker image rm ashokkumarta/regulator-recommendations-incentive-app:latest
-docker build -t ashokkumarta/regulator-recommendations-incentive-app:latest .
-docker push ashokkumarta/regulator-recommendations-incentive-app:latest
-cd ..\recommendations-incentive-processor-app
-docker image rm ashokkumarta/recommendations-incentive-processor-app:latest
-docker build -t ashokkumarta/recommendations-incentive-processor-app:latest .
-docker push ashokkumarta/recommendations-incentive-processor-app:latest
-cd ..\regulator-recommendations-feedback-processor-app
-docker image rm ashokkumarta/regulator-recommendations-feedback-processor-app:latest
-docker build -t ashokkumarta/regulator-recommendations-feedback-processor-app:latest .
-docker push ashokkumarta/regulator-recommendations-feedback-processor-app:latest
+cd D:\Ashok\Work\IDS\git\ran-slice-tmf-ids-app-config\dataapps
+cd ibusiness-slicing-request-generator
+docker image rm ashokkumarta/ibusiness-slicing-request-generator:latest
+docker build -t ashokkumarta/ibusiness-slicing-request-generator:latest .
+docker push ashokkumarta/ibusiness-slicing-request-generator:latest
+cd ..\personx-slicing-request-generator
+docker image rm ashokkumarta/personx-slicing-request-generator:latest
+docker build -t ashokkumarta/personx-slicing-request-generator:latest .
+docker push ashokkumarta/personx-slicing-request-generator:latest
+cd ..\zbusiness-slicing-request-generator
+docker image rm ashokkumarta/zbusiness-slicing-request-generator:latest
+docker build -t ashokkumarta/zbusiness-slicing-request-generator:latest .
+docker push ashokkumarta/zbusiness-slicing-request-generator:latest
+cd ..\isp-slicing-request-processor
+docker image rm ashokkumarta/isp-slicing-request-processor:latest
+docker build -t ashokkumarta/isp-slicing-request-processor:latest .
+docker push ashokkumarta/isp-slicing-request-processor:latest
+cd ..
+
+Linux:
+cd ibusiness-slicing-request-generator
+docker image rm ashokkumarta/ibusiness-slicing-request-generator:latest
+docker build -t ashokkumarta/ibusiness-slicing-request-generator:latest .
+docker push ashokkumarta/ibusiness-slicing-request-generator:latest
+cd ../personx-slicing-request-generator
+docker image rm ashokkumarta/personx-slicing-request-generator:latest
+docker build -t ashokkumarta/personx-slicing-request-generator:latest .
+docker push ashokkumarta/personx-slicing-request-generator:latest
+cd ../zbusiness-slicing-request-generator
+docker image rm ashokkumarta/zbusiness-slicing-request-generator:latest
+docker build -t ashokkumarta/zbusiness-slicing-request-generator:latest .
+docker push ashokkumarta/zbusiness-slicing-request-generator:latest
+cd ../isp-slicing-request-processor
+docker image rm ashokkumarta/isp-slicing-request-processor:latest
+docker build -t ashokkumarta/isp-slicing-request-processor:latest .
+docker push ashokkumarta/isp-slicing-request-processor:latest
 cd ..
 
 
-csp-recommendations-feedback-app
-mno1-recommendations-feedback-app
-mno2-recommendations-feedback-app
-regulator-recommendations-incentive-app
-
-
-
-recommendations-processor
-
-regulator-recommendations-app
-
+docker login -u ashokkumarta@gmail.com --password-stdin
 
 #End build dataapps
 
 #Certs
 
 d:
-cd D:\Ashok\Work\IDS\git\ran-slice-tmf-ids-deploy\certs\tmf
+cd D:\Ashok\Work\IDS\git\certs\tmf
 copy ..\etc-locked\truststore.p12 truststore.p12
 
-copy ..\etc-locked\consumer-keystore.p12 ibusiness.p12
-keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore ibusiness.p12 -storepass password -ext "SAN=DNS:ibusiness"
-keytool -export -alias 1 -storetype PKCS12 -storepass password -file ibusiness.cer -keystore ibusiness.p12
-keytool -import -noprompt -v -trustcacerts -alias ibusiness -storetype PKCS12 -file ibusiness.cer -keystore truststore.p12 -keypass password -storepass password
+copy ..\etc-locked\consumer-keystore.p12 mno-1.p12
+keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore mno-1.p12 -storepass password -ext "SAN=DNS:mno-1"
+keytool -export -alias 1 -storetype PKCS12 -storepass password -file mno-1.cer -keystore mno-1.p12
+keytool -import -noprompt -v -trustcacerts -alias mno-1 -storetype PKCS12 -file mno-1.cer -keystore truststore.p12 -keypass password -storepass password
 
-copy ..\etc-locked\consumer-keystore.p12 personX.p12
-keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore personX.p12 -storepass password -ext "SAN=DNS:personX"
-keytool -export -alias 1 -storetype PKCS12 -storepass password -file personX.cer -keystore personX.p12
-keytool -import -noprompt -v -trustcacerts -alias personX -storetype PKCS12 -file personX.cer -keystore truststore.p12 -keypass password -storepass password
+copy ..\etc-locked\consumer-keystore.p12 mno-2.p12
+keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore mno-2.p12 -storepass password -ext "SAN=DNS:mno-2"
+keytool -export -alias 1 -storetype PKCS12 -storepass password -file mno-2.cer -keystore mno-2.p12
+keytool -import -noprompt -v -trustcacerts -alias mno-2 -storetype PKCS12 -file mno-2.cer -keystore truststore.p12 -keypass password -storepass password
 
-copy ..\etc-locked\consumer-keystore.p12 zbusiness.p12
-keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore zbusiness.p12 -storepass password -ext "SAN=DNS:zbusiness"
-keytool -export -alias 1 -storetype PKCS12 -storepass password -file zbusiness.cer -keystore zbusiness.p12
-keytool -import -noprompt -v -trustcacerts -alias zbusiness -storetype PKCS12 -file zbusiness.cer -keystore truststore.p12 -keypass password -storepass password
+copy ..\etc-locked\consumer-keystore.p12 mno-3.p12
+keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore mno-3.p12 -storepass password -ext "SAN=DNS:mno-3"
+keytool -export -alias 1 -storetype PKCS12 -storepass password -file mno-3.cer -keystore mno-3.p12
+keytool -import -noprompt -v -trustcacerts -alias mno-3 -storetype PKCS12 -file mno-3.cer -keystore truststore.p12 -keypass password -storepass password
 
-copy ..\etc-locked\consumer-keystore.p12 isp.p12
-keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore isp.p12 -storepass password -ext "SAN=DNS:isp"
-keytool -export -alias 1 -storetype PKCS12 -storepass password -file isp.cer -keystore isp.p12
-keytool -import -noprompt -v -trustcacerts -alias isp -storetype PKCS12 -file isp.cer -keystore truststore.p12 -keypass password -storepass password
+copy ..\etc-locked\consumer-keystore.p12 csp.p12
+keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore csp.p12 -storepass password -ext "SAN=DNS:csp"
+keytool -export -alias 1 -storetype PKCS12 -storepass password -file csp.cer -keystore csp.p12
+keytool -import -noprompt -v -trustcacerts -alias csp -storetype PKCS12 -file csp.cer -keystore truststore.p12 -keypass password -storepass password
+
+
+copy ..\etc-locked\consumer-keystore.p12 ran-regulator.p12
+keytool -selfcert -alias 1 -storetype PKCS12 -keypass password -keystore ran-regulator.p12 -storepass password -ext "SAN=DNS:ran-regulator"
+keytool -export -alias 1 -storetype PKCS12 -storepass password -file ran-regulator.cer -keystore ran-regulator.p12
+keytool -import -noprompt -v -trustcacerts -alias ran-regulator -storetype PKCS12 -file ran-regulator.cer -keystore truststore.p12 -keypass password -storepass password
 
 keytool -list -storetype PKCS12 -v -keystore truststore.p12 -storepass password 
 

@@ -137,7 +137,7 @@
 					<log
 						message="SLICING REQUEST - Generating slicing request from zbusiness-slicing-request-generator..." />
 
-					<to uri="http://zbusiness:9102?awaitResponse=true" />
+					<to uri="http://zbusiness:9293?awaitResponse=true" />
 
 					<log
 						message="SLICING REQUEST - Pushing slicing request as payload in IDS response..." />
