@@ -14,7 +14,7 @@ services:
       - ./zbusiness.xml:/root/deploy/zbusiness.xml
     # Enable this port mappings for debugging or UI access from localhost
     ports:
-      - "9092:8080"
+      - "9193:8080"
     networks:
       - ids-local
 

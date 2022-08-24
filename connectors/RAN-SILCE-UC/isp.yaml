@@ -14,7 +14,7 @@ services:
       - ./isp.xml:/root/deploy/isp.xml
     # Enable this port mappings for debugging or UI access from localhost
     ports:
-      - "9080:8080"
+      - "9191:8080"
     networks:
       - ids-local
 
