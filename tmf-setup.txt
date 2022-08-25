@@ -1,5 +1,4 @@
 
-
 # Build dataapps
 d:
 cd D:\Ashok\Work\IDS\git\ran-slice-tmf-ids-app-config\dataapps
@@ -21,6 +20,30 @@ docker build -t ashokkumarta/isp-slicing-request-processor:latest .
 docker push ashokkumarta/isp-slicing-request-processor:latest
 cd ..
 
+===========
+
+GCP:
+
+cd ibusiness-slicing-request-generator
+sudo docker image rm ashokkumarta/ibusiness-slicing-request-generator:latest
+sudo docker build -t ashokkumarta/ibusiness-slicing-request-generator:latest .
+sudo docker push ashokkumarta/ibusiness-slicing-request-generator:latest
+cd ..\personX-slicing-request-generator
+sudo docker image rm ashokkumarta/personx-slicing-request-generator:latest
+sudo docker build -t ashokkumarta/personx-slicing-request-generator:latest .
+sudo docker push ashokkumarta/personx-slicing-request-generator:latest
+cd ..\zbusiness-slicing-request-generator
+sudo docker image rm ashokkumarta/zbusiness-slicing-request-generator:latest
+sudo docker build -t ashokkumarta/zbusiness-slicing-request-generator:latest .
+sudo docker push ashokkumarta/zbusiness-slicing-request-generator:latest
+cd ..\isp-slicing-request-processor
+sudo docker image rm ashokkumarta/isp-slicing-request-processor:latest
+sudo docker build -t ashokkumarta/isp-slicing-request-processor:latest .
+sudo docker push ashokkumarta/isp-slicing-request-processor:latest
+cd ..
+
+==========================
+
 Linux:
 cd ibusiness-slicing-request-generator
 docker image rm ashokkumarta/ibusiness-slicing-request-generator:latest
@@ -39,6 +62,8 @@ docker image rm ashokkumarta/isp-slicing-request-processor:latest
 docker build -t ashokkumarta/isp-slicing-request-processor:latest .
 docker push ashokkumarta/isp-slicing-request-processor:latest
 cd ..
+
+
 
 
 docker login -u ashokkumarta@gmail.com --password-stdin
