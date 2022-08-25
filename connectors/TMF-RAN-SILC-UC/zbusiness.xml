@@ -156,7 +156,7 @@
 						uri="idscp2client://isp:29292?connectionShareId=udConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 
 					<log
-						message="SLICING REQUEST - Slicing request sent to ran-regulator successfully" />
+						message="SLICING REQUEST - Slicing request sent to ISP successfully" />
 				</when>
 				<otherwise>
 					<log loggingLevel="ERROR"
