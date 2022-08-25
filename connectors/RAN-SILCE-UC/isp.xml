@@ -84,7 +84,7 @@
 
 
 					<setHeader name="CamelHttpMethod">
-						<constant>POST</constant>
+						<constant>PUT</constant>
 					</setHeader>
 					<setHeader name="content-type">
 						<simple>text/plain</simple>
