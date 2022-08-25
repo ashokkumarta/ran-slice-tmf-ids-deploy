@@ -28,15 +28,15 @@ cd ibusiness-slicing-request-generator
 sudo docker image rm ashokkumarta/ibusiness-slicing-request-generator:latest
 sudo docker build -t ashokkumarta/ibusiness-slicing-request-generator:latest .
 sudo docker push ashokkumarta/ibusiness-slicing-request-generator:latest
-cd ..\personX-slicing-request-generator
+cd ../personX-slicing-request-generator
 sudo docker image rm ashokkumarta/personx-slicing-request-generator:latest
 sudo docker build -t ashokkumarta/personx-slicing-request-generator:latest .
 sudo docker push ashokkumarta/personx-slicing-request-generator:latest
-cd ..\zbusiness-slicing-request-generator
+cd ../zbusiness-slicing-request-generator
 sudo docker image rm ashokkumarta/zbusiness-slicing-request-generator:latest
 sudo docker build -t ashokkumarta/zbusiness-slicing-request-generator:latest .
 sudo docker push ashokkumarta/zbusiness-slicing-request-generator:latest
-cd ..\isp-slicing-request-processor
+cd ../isp-slicing-request-processor
 sudo docker image rm ashokkumarta/isp-slicing-request-processor:latest
 sudo docker build -t ashokkumarta/isp-slicing-request-processor:latest .
 sudo docker push ashokkumarta/isp-slicing-request-processor:latest

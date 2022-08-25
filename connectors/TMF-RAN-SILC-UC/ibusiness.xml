@@ -69,7 +69,7 @@
 					<log
 						message="### SLICING REQUEST - Handling Contract Request Message ###" />
 					<setProperty name="containerUri">
-						<constant>https://hub.docker.com/layers/ashokkumarta/isp-slicing-request-processor/latest/images/sha256-d75a1c9f98e26de5f65b1927f90c34ec316ab66a0a1e58ccbaacf14230fe7e54#9291</constant>
+						<constant>https://hub.docker.com/layers/ashokkumarta/isp-slicing-request-processor/latest/images/sha256-01de0664382a7bd67bd6f46f2b4e2a8c1cb1620507b925f6ac4e0ffac80c9d2a#9291</constant>
 					</setProperty>
 					<process ref="ContractRequestProcessor" />
 					<to
