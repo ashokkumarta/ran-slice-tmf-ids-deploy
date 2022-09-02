@@ -59,7 +59,7 @@
 				message="### DENAMD FORECAST - Requesting to 'request for contract' ###" />
 			<process ref="ContractRequestCreationProcessor" />
 			<to
-				uri="idscp2client://isp:29292?awaitResponse=true&amp;connectionShareId=udConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+				uri="idscp2client://csp:29292?awaitResponse=true&amp;connectionShareId=udConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 
 			<process ref="TypeExtractionProcessor" />
 			<choice>
@@ -73,7 +73,7 @@
 					</setProperty>
 					<process ref="ContractRequestProcessor" />
 					<to
-						uri="idscp2client://isp:29292?awaitResponse=true&amp;connectionShareId=udConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+						uri="idscp2client://csp:29292?awaitResponse=true&amp;connectionShareId=udConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 
 					<process ref="TypeExtractionProcessor" />
 					<choice>
@@ -126,7 +126,7 @@
 				message="### DENAMD FORECAST - Sending request to 'request for demand forecast' ###" />
 
 			<to
-				uri="idscp2client://isp:29292?awaitResponse=true&amp;connectionShareId=udConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+				uri="idscp2client://csp:29292?awaitResponse=true&amp;connectionShareId=udConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 			<process ref="TypeExtractionProcessor" />
 			<choice>
 				<when>
@@ -153,7 +153,7 @@
 					<log
 						message="DENAMD FORECAST - Sending demand forecast to CSP:\n\n${body}" />
 					<to
-						uri="idscp2client://isp:29292?connectionShareId=udConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+						uri="idscp2client://csp:29292?connectionShareId=udConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 
 					<log
 						message="DENAMD FORECAST - Demand forecast sent to CSP successfully" />
