@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   # The core platform, mounts docker control socket and route definition into the image
-  csp-ids-connector:
+  csp:
     image: ashokkumarta/ids-trusted-connector
     tty: true
     stdin_open: true

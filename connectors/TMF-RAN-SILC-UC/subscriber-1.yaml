@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   # The core platform, mounts docker control socket and route definition into the image
-  subscriber-1-ids-connector:
+  subscriber-1:
     image: ashokkumarta/ids-trusted-connector
     tty: true
     stdin_open: true

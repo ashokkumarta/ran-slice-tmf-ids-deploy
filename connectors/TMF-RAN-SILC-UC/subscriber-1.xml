@@ -61,7 +61,7 @@
 				message="### DENAMD FORECAST - Sending request to 'request for demand forecast' ###" />
 
 			<to
-				uri="idscp2client://csp-ids-connector:29292?awaitResponse=true&amp;connectionShareId=udConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+				uri="idscp2client://csp:29292?awaitResponse=true&amp;connectionShareId=udConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 			<process ref="TypeExtractionProcessor" />
 			<choice>
 				<when>
@@ -88,7 +88,7 @@
 					<log
 						message="DENAMD FORECAST - Sending demand forecast to CSP:\n\n${body}" />
 					<to
-						uri="idscp2client://csp-ids-connector:29292?connectionShareId=udConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+						uri="idscp2client://csp:29292?connectionShareId=udConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 
 					<log
 						message="DENAMD FORECAST - Demand forecast sent to CSP successfully" />
@@ -112,7 +112,7 @@
 			
 			<process ref="ContractRequestCreationProcessor" />
 			<to
-				uri="idscp2client://csp-ids-connector:29293?awaitResponse=true&amp;connectionShareId=riConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+				uri="idscp2client://csp:29293?awaitResponse=true&amp;connectionShareId=riConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 			<process ref="TypeExtractionProcessor" />
 			<choice>
 				<when>
@@ -121,7 +121,7 @@
 						message="### LOAD OPTIMIZER - Handling Contract Response ###" />
 					<process ref="ContractResponseProcessor" />
 					<to
-						uri="idscp2client://csp-ids-connector:29293?connectionShareId=riConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+						uri="idscp2client://csp:29293?connectionShareId=riConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 				</when>
 				<otherwise>
 					<log loggingLevel="ERROR"
@@ -146,7 +146,7 @@
 
 			<process ref="ArtifactRequestCreationProcessor" />
 			<to
-				uri="idscp2client://csp-ids-connector:29293?awaitResponse=true&amp;connectionShareId=riConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+				uri="idscp2client://csp:29293?awaitResponse=true&amp;connectionShareId=riConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 			<process ref="TypeExtractionProcessor" />
 			<choice>
 				<when>
