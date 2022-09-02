@@ -69,7 +69,7 @@
 					<log
 						message="### DENAMD FORECAST - Handling Contract Request Message ###" />
 					<setProperty name="containerUri">
-						<constant>https://hub.docker.com/layers/ashokkumarta/csp-resource-management/latest/images/sha256-02d791bb681b249a9f2171685c88c827075b7bd478bf257e01f064ab6c3e87b9#9001</constant>
+						<constant>https://hub.docker.com/layers/ashokkumarta/csp-resource-management/latest/images/sha256-d9b699ba68931eab5de151c9c1486a9ff4b693b3b4457bb23ef18ae7f999eab6#9001</constant>
 					</setProperty>
 					<process ref="ContractRequestProcessor" />
 					<to
