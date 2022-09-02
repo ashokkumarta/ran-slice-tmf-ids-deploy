@@ -152,12 +152,14 @@
 						message="LOAD OPTIMIZER - Received request for load optimizer ..." />
 
 					<log
-						message="LOAD OPTIMIZER - Invoking regulator-recommendations-incentive app to get load optimizer..." />
+						message="LOAD OPTIMIZER - Invoking csp-load-optimizer app to get load optimization data..." />
 					<to
 						uri="http://csp-load-optimizer-app:9002?awaitResponse=true" />
 
 					<log
-						message="LOAD OPTIMIZER - Pushing load optimizer as payload in IDS message ..." />
+						message="LOAD OPTIMIZER - Pushing load optimization data as payload in IDS message ..." />
+					<log
+						message="LOAD OPTIMIZER - Load optimization data: ${body}" />
 					<setProperty name="tmf_content_pay_load">
 						<simple>${bodyAs(String)}</simple>
 					</setProperty>
@@ -166,7 +168,7 @@
 						<constant>https://catalyst.tmf/ran-slicing/load-optimizer</constant>
 					</setProperty>
 
-					<log message="LOAD OPTIMIZER - Sending load optimizer..." />
+					<log message="LOAD OPTIMIZER - Sending load optimization data..." />
 					<process ref="TMFArtifactResponseProcessor" />
 
 					<log
