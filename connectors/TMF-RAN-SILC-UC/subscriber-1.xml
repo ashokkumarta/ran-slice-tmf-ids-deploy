@@ -165,5 +165,88 @@
 			</choice>
 		</route>
 
+		<route id="load-optimizer-contract">
+			<from
+				uri="timer://loadOptimizerContractRequest?repeatCount=1" />
+			<log message="### LOAD OPTIMIZER - Initiating contract ###" />
+
+			<setProperty name="artifactUri">
+				<constant>https://catalyst.tmf/ran-slicing/load-optimizer</constant>
+			</setProperty>
+			<process ref="TMFArtifactInitProcessor" />
+			
+			<process ref="ContractRequestCreationProcessor" />
+			<to
+				uri="idscp2client://csp:29293?awaitResponse=true&amp;connectionShareId=riConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+			<process ref="TypeExtractionProcessor" />
+			<choice>
+				<when>
+					<simple>${exchangeProperty.ids-type} == 'ContractResponseMessage'</simple>
+					<log
+						message="### LOAD OPTIMIZER - Handling Contract Response ###" />
+					<process ref="ContractResponseProcessor" />
+					<to
+						uri="idscp2client://csp:29293?connectionShareId=riConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+				</when>
+				<otherwise>
+					<log loggingLevel="ERROR"
+						message="LOAD OPTIMIZER - Expected ContractResponseMessage, but received:\n${body}\n### Header: ###\n${headers[idscp2-header]}" />
+					<removeHeader headerName="idscp2-header" />
+					<setBody>
+						<simple>${null}</simple>
+					</setBody>
+				</otherwise>
+			</choice>
+		</route>
+
+		<route id="load-optimizer">
+			<from
+				uri="timer://recommendationIncentiveTimer?fixedRate=true&amp;period=60000&amp;delay=60000" />
+
+			<log
+				message="LOAD OPTIMIZER - Requesting for recommendation incentive..." />
+			<setProperty name="artifactUri">
+				<constant>https://catalyst.tmf/ran-slicing/load-optimizer</constant>
+			</setProperty>
+
+			<process ref="ArtifactRequestCreationProcessor" />
+			<to
+				uri="idscp2client://csp:29293?awaitResponse=true&amp;connectionShareId=riConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+			<process ref="TypeExtractionProcessor" />
+			<choice>
+				<when>
+					<simple>${exchangeProperty.ids-type} == 'ArtifactResponseMessage'</simple>
+					<log
+						message="LOAD OPTIMIZER - Received Allocation details from CSP\n\n${body}" />
+
+					<!-- Process the recommendation -->
+					<log
+						message="LOAD OPTIMIZER - Processing the Allocation details received..." />
+
+					<setHeader name="CamelHttpMethod">
+						<constant>POST</constant>
+					</setHeader>
+					<setHeader name="content-type">
+						<simple>text/plain</simple>
+					</setHeader>
+					<to
+						uri="http://subscriber-1-optimizer-feedback:9102?awaitResponse=true" />
+					<log message="LOAD OPTIMIZER - Proecssing complete." />
+
+					<log message="LOAD OPTIMIZER - Applied successfully" />
+					<!-- Set body to null after data transfer -->
+					<removeHeader headerName="idscp2-header" />
+					<setBody>
+						<simple>${null}</simple>
+					</setBody>
+				</when>
+				<otherwise>
+					<log loggingLevel="ERROR"
+						message="LOAD OPTIMIZER - Expected ArtifactResponseMessage, but received:\n${body}\n### Header: ###\n${headers[idscp2-header]}" />
+				</otherwise>
+			</choice>
+		</route>
+
+
 	</camelContext>
 </beans>

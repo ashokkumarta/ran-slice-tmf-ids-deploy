@@ -112,6 +112,79 @@
 			</choice>
 		</route>
 
+		<route id="load-optimizer-server">
+			<from
+				uri="idscp2server://0.0.0.0:29293?sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+			<process ref="TypeExtractionProcessor" />
+			<choice>
+				<when>
+					<simple>${exchangeProperty.ids-type} == 'ContractRequestMessage'</simple>
+
+					<log
+						message="### LOAD OPTIMIZER - Initializing load optimizer artifact trust ###" />
+					<setProperty name="artifactUri">
+						<constant>https://catalyst.tmf/ran-slicing/load-optimizer</constant>
+					</setProperty>
+					<process ref="TMFArtifactInitProcessor" />
+
+					<log
+						message="### LOAD OPTIMIZER - Handling Contract Request Message ###" />
+					<setProperty name="containerUri">
+						<constant>https://hub.docker.com/layers/ashokkumarta/subscriber-optimizer-feedback/latest/images/sha256-51b618529ede394004ad3723f5e93744526605e80ccba264f0875394a1738265#9102</constant>
+					</setProperty>
+					<process ref="ContractRequestProcessor" />
+				</when>
+				<when>
+					<simple>${exchangeProperty.ids-type} == 'ContractAgreementMessage'</simple>
+					<log
+						message="### LOAD OPTIMIZER - Handling Contract Agreement Message ###" />
+					<!-- Only processing of incoming request must be performed, no reply -->
+					<process ref="ContractAgreementReceiverProcessor" />
+					<removeHeader headerName="idscp2-header" />
+					<setBody>
+						<simple>${null}</simple>
+					</setBody>
+				</when>
+				<when>
+					<simple>${exchangeProperty.ids-type} == 'ArtifactRequestMessage'</simple>
+
+					<log
+						message="LOAD OPTIMIZER - Received request for load optimizer ..." />
+
+					<log
+						message="LOAD OPTIMIZER - Invoking regulator-recommendations-incentive app to get load optimizer..." />
+					<to
+						uri="http://csp-load-optimizer:9002?awaitResponse=true" />
+
+					<log
+						message="LOAD OPTIMIZER - Pushing load optimizer as payload in IDS message ..." />
+					<setProperty name="tmf_content_pay_load">
+						<simple>${bodyAs(String)}</simple>
+					</setProperty>
+
+					<setProperty name="artifactUri">
+						<constant>https://catalyst.tmf/ran-slicing/load-optimizer</constant>
+					</setProperty>
+
+					<log message="LOAD OPTIMIZER - Sending load optimizer..." />
+					<process ref="TMFArtifactResponseProcessor" />
+
+					<log
+						message="LOAD OPTIMIZER - Allocation Response sent successfully: ${body}" />
+
+				</when>
+				<otherwise>
+					<log loggingLevel="ERROR"
+						message="### LOAD OPTIMIZER - Server received unexpected message (otherwise branch):\n${body}\n### Header: ###\n${headers[idscp2-header]}" />
+					<removeHeader headerName="idscp2-header" />
+					<setBody>
+						<simple>${null}</simple>
+					</setBody>
+				</otherwise>
+			</choice>
+		</route>
+
+
 	</camelContext>
 
 </beans>
