@@ -10,7 +10,7 @@
 	<camel:sslContextParameters id="sslContext"
 		certAlias="1.0.1">
 		<camel:keyManagers keyPassword="password">
-			<camel:keyStore resource="etc/ibusiness.p12"
+			<camel:keyStore resource="etc/subscriber-1.p12"
 				password="password" />
 		</camel:keyManagers>
 		<camel:trustManagers>
