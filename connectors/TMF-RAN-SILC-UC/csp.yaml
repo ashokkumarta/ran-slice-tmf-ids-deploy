@@ -14,7 +14,7 @@ services:
       - ./csp.xml:/root/deploy/csp.xml
     # Enable this port mappings for debugging or UI access from localhost
     ports:
-      - "8080:8080"
+      - "9980:8080"
     networks:
       - ids-local
 
