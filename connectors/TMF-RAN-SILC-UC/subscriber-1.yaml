@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   # The core platform, mounts docker control socket and route definition into the image
-  subscriber-1:
+  subscriber-1-ids-connector:
     image: ashokkumarta/ids-trusted-connector
     tty: true
     stdin_open: true
@@ -18,15 +18,15 @@ services:
     networks:
       - ids-local
 
-  subscriber-1-demand-forecast:
+  subscriber-1-demand-forecast-app:
     image: ashokkumarta/subscriber-1-demand-forecast
     networks:
       - ids-local
-  subscriber-1-optimizer-feedback:
+  subscriber-1-optimizer-feedback-app:
     image: ashokkumarta/subscriber-optimizer-feedback
     networks:
       - ids-local
-  subscriber-1-allocation-confirmation:
+  subscriber-1-allocation-confirmation-app:
     image: ashokkumarta/subscriber-allocation-confirmation
     networks:
       - ids-local

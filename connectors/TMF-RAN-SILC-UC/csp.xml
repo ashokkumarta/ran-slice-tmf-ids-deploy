@@ -89,7 +89,7 @@
 					<setHeader name="content-type">
 						<simple>text/plain</simple>
 					</setHeader>
-					<to uri="http://csp-resource-management:9001?awaitResponse=true" />
+					<to uri="http://csp-resource-management-app:9001?awaitResponse=true" />
 
 					<log
 						message="DEMAND FORECAST - Response from accepting demand forecast: \n${body}" />
@@ -154,7 +154,7 @@
 					<log
 						message="LOAD OPTIMIZER - Invoking regulator-recommendations-incentive app to get load optimizer..." />
 					<to
-						uri="http://csp-load-optimizer:9002?awaitResponse=true" />
+						uri="http://csp-load-optimizer-app:9002?awaitResponse=true" />
 
 					<log
 						message="LOAD OPTIMIZER - Pushing load optimizer as payload in IDS message ..." />
