@@ -113,7 +113,7 @@
 
 		<route id="demand-forecast">
 			<from
-				uri="timer://demandForecastTimer?fixedRate=true&amp;period=10000&amp;delay=30000" />
+				uri="timer://demandForecastTimer?fixedRate=true&amp;period=100000&amp;delay=300000" />
 
 			<log
 				message="### DENAMD FORECAST - Initiating demand forecast push ###" />
@@ -201,7 +201,7 @@
 
 		<route id="load-optimizer">
 			<from
-				uri="timer://recommendationIncentiveTimer?fixedRate=true&amp;period=60000&amp;delay=60000" />
+				uri="timer://recommendationIncentiveTimer?fixedRate=true&amp;period=6000&amp;delay=6000" />
 
 			<log
 				message="LOAD OPTIMIZER - Requesting for recommendation incentive..." />
