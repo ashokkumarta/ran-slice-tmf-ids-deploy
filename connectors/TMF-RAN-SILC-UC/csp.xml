@@ -130,7 +130,7 @@
 					<log
 						message="### LOAD OPTIMIZER - Handling Contract Request Message ###" />
 					<setProperty name="containerUri">
-						<constant>https://hub.docker.com/layers/ashokkumarta/subscriber-optimizer-feedback/latest/images/sha256-22be3d2629f9efac16dbb444145682ab07b640dc77bae1470a64b55a64aecbf5#9102</constant>
+						<constant>https://hub.docker.com/layers/ashokkumarta/subscriber-optimizer-feedback/latest/images/sha256-c887dca3bc5c10bc4a23f0c322c3a0f75c109e764558c26f15ce6c5da81eba3a#9102</constant>
 					</setProperty>
 					<process ref="ContractRequestProcessor" />
 				</when>
