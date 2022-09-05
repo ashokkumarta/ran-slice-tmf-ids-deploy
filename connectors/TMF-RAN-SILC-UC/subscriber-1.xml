@@ -112,7 +112,7 @@
 						<simple>text/plain</simple>
 					</setHeader>
 					<to
-						uri="http://subscriber-1-optimizer-feedback-app:9102?awaitResponse=true" />
+						uri="http://subscriber-optimizer-feedback-app:9102?awaitResponse=true" />
 					<log message="LOAD OPTIMIZER - Proecssing complete." />
 
 					<log message="LOAD OPTIMIZER - Applied successfully" />
