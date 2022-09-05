@@ -59,7 +59,7 @@
 			
 			<process ref="ContractRequestCreationProcessor" />
 			<to
-				uri="idscp2client://csp:29293?awaitResponse=true&amp;connectionShareId=riConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+				uri="idscp2client://csp:29293?awaitResponse=true&amp;connectionShareId=loConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 			<process ref="TypeExtractionProcessor" />
 			<choice>
 				<when>
@@ -68,7 +68,7 @@
 						message="### LOAD OPTIMIZER - Handling Contract Response ###" />
 					<process ref="ContractResponseProcessor" />
 					<to
-						uri="idscp2client://csp:29293?connectionShareId=riConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+						uri="idscp2client://csp:29293?connectionShareId=loConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 				</when>
 				<otherwise>
 					<log loggingLevel="ERROR"
@@ -86,14 +86,14 @@
 				uri="timer://recommendationIncentiveTimer?fixedRate=true&amp;period=20000&amp;delay=30000" />
 
 			<log
-				message="LOAD OPTIMIZER - Requesting for recommendation incentive..." />
+				message="LOAD OPTIMIZER - Requesting for load optimized allocation..." />
 			<setProperty name="artifactUri">
 				<constant>https://catalyst.tmf/ran-slicing/load-optimizer</constant>
 			</setProperty>
 
 			<process ref="ArtifactRequestCreationProcessor" />
 			<to
-				uri="idscp2client://csp:29293?awaitResponse=true&amp;connectionShareId=riConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+				uri="idscp2client://csp:29293?awaitResponse=true&amp;connectionShareId=loConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 			<process ref="TypeExtractionProcessor" />
 			<choice>
 				<when>
@@ -112,7 +112,7 @@
 						<simple>text/plain</simple>
 					</setHeader>
 					<to
-						uri="http://subscriber-optimizer-feedback-app:9102?awaitResponse=true" />
+						uri="http://subscriber-optimizer-feedback-app:9103?awaitResponse=true" />
 					<log message="LOAD OPTIMIZER - Proecssing complete." />
 
 					<log message="LOAD OPTIMIZER - Applied successfully" />

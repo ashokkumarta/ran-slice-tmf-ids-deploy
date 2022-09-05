@@ -130,7 +130,7 @@
 					<log
 						message="### LOAD OPTIMIZER - Handling Contract Request Message ###" />
 					<setProperty name="containerUri">
-						<constant>https://hub.docker.com/layers/ashokkumarta/subscriber-optimizer-feedback/latest/images/sha256-51b618529ede394004ad3723f5e93744526605e80ccba264f0875394a1738265#9102</constant>
+						<constant>https://hub.docker.com/layers/ashokkumarta/subscriber-optimizer-feedback/latest/images/sha256-51b618529ede394004ad3723f5e93744526605e80ccba264f0875394a1738265#9103</constant>
 					</setProperty>
 					<process ref="ContractRequestProcessor" />
 				</when>
@@ -158,8 +158,6 @@
 
 					<log
 						message="LOAD OPTIMIZER - Pushing load optimization data as payload in IDS message ..." />
-					<log
-						message="LOAD OPTIMIZER - Load optimization data: ${body}" />
 					<setProperty name="tmf_content_pay_load">
 						<simple>${bodyAs(String)}</simple>
 					</setProperty>
