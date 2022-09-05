@@ -93,7 +93,7 @@
 
 					<log
 						message="DEMAND FORECAST - Response from accepting demand forecast: \n${body}" />
-					<log message="DEMAND FORECAST - Demand forcast from subscriber - proecssing complete." />
+					<log message="DEMAND FORECAST - Received demand forecast from subscriber - Proecssing complete." />
 
 					<!-- Set body to null after data transfer -->
 					<removeHeader headerName="idscp2-header" />
