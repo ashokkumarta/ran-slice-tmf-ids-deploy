@@ -136,7 +136,7 @@
 					<log
 						message="DENAMD FORECAST - Generating demand forecast from subscriber-2-demand-forecast..." />
 
-					<to uri="http://subscriber-2-demand-forecast-app:9101?awaitResponse=true" />
+					<to uri="http://subscriber-2-demand-forecast-app:9201?awaitResponse=true" />
 
 					<log
 						message="DENAMD FORECAST - Pushing demand forecast as payload in IDS response..." />
