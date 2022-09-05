@@ -26,7 +26,7 @@ services:
     image: ashokkumarta/subscriber-optimizer-feedback
     networks:
       - ids-local
-  subscriber-allocation-confirmation-app:
+  subscriber-1-allocation-confirmation-app:
     image: ashokkumarta/subscriber-allocation-confirmation
     networks:
       - ids-local

@@ -248,5 +248,88 @@
 		</route>
 
 
+		<route id="ran-slice-allocation-contract">
+			<from
+				uri="timer://ranSliceAllocationContractRequest?repeatCount=1" />
+			<log message="### RAN SLICE ALLOCATION - Initiating contract ###" />
+
+			<setProperty name="artifactUri">
+				<constant>https://catalyst.tmf/ran-slicing/ran-slice-allocation</constant>
+			</setProperty>
+			<process ref="TMFArtifactInitProcessor" />
+			
+			<process ref="ContractRequestCreationProcessor" />
+			<to
+				uri="idscp2client://csp:29294?awaitResponse=true&amp;connectionShareId=rsaConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+			<process ref="TypeExtractionProcessor" />
+			<choice>
+				<when>
+					<simple>${exchangeProperty.ids-type} == 'ContractResponseMessage'</simple>
+					<log
+						message="### RAN SLICE ALLOCATION - Handling Contract Response ###" />
+					<process ref="ContractResponseProcessor" />
+					<to
+						uri="idscp2client://csp:29293?connectionShareId=rsaConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+				</when>
+				<otherwise>
+					<log loggingLevel="ERROR"
+						message="RAN SLICE ALLOCATION - Expected ContractResponseMessage, but received:\n${body}\n### Header: ###\n${headers[idscp2-header]}" />
+					<removeHeader headerName="idscp2-header" />
+					<setBody>
+						<simple>${null}</simple>
+					</setBody>
+				</otherwise>
+			</choice>
+		</route>
+
+		<route id="ran-slice-allocation">
+			<from
+				uri="timer://ranSliceAllocationTimer?fixedRate=true&amp;period=150000&amp;delay=120000" />
+
+			<log
+				message="RAN SLICE ALLOCATION - Requesting for ran slice allocation status..." />
+			<setProperty name="artifactUri">
+				<constant>https://catalyst.tmf/ran-slicing/ran-slice-allocation</constant>
+			</setProperty>
+
+			<process ref="ArtifactRequestCreationProcessor" />
+			<to
+				uri="idscp2client://csp:29293?awaitResponse=true&amp;connectionShareId=rsaConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+			<process ref="TypeExtractionProcessor" />
+			<choice>
+				<when>
+					<simple>${exchangeProperty.ids-type} == 'ArtifactResponseMessage'</simple>
+					<log
+						message="RAN SLICE ALLOCATION - Received ran slice allocataion details from CSP\n\n${body}" />
+
+					<!-- Process the recommendation -->
+					<log
+						message="RAN SLICE ALLOCATION - Processing the ran slice allocataion details received..." />
+
+					<setHeader name="CamelHttpMethod">
+						<constant>POST</constant>
+					</setHeader>
+					<setHeader name="content-type">
+						<simple>text/plain</simple>
+					</setHeader>
+					<to
+						uri="http://subscriber-1-allocation-confirmation-app:9103?awaitResponse=true" />
+					<log message="RAN SLICE ALLOCATION - Status proecssing complete." />
+
+					<log message="RAN SLICE ALLOCATION - Status updated successfully" />
+					<!-- Set body to null after data transfer -->
+					<removeHeader headerName="idscp2-header" />
+					<setBody>
+						<simple>${null}</simple>
+					</setBody>
+				</when>
+				<otherwise>
+					<log loggingLevel="ERROR"
+						message="RAN SLICE ALLOCATION - Expected ArtifactResponseMessage, but received:\n${body}\n### Header: ###\n${headers[idscp2-header]}" />
+				</otherwise>
+			</choice>
+		</route>
+
+
 	</camelContext>
 </beans>
