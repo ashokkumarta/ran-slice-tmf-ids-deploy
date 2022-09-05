@@ -157,7 +157,22 @@
 						uri="http://csp-load-optimizer-app:9002?awaitResponse=true" />
 
 					<log
-						message="LOAD OPTIMIZER - Pushing load optimization data as payload in IDS message ..." />
+						message="LOAD OPTIMIZER - Invoking csp-load-optimizer app to process optmized allocation details..." />
+
+					<setHeader name="CamelHttpMethod">
+						<constant>PUT</constant>
+					</setHeader>
+					<setHeader name="content-type">
+						<simple>text/plain</simple>
+					</setHeader>
+					<to
+						uri="http://csp-load-optimizer-app:9002?awaitResponse=true" />
+					<log message="LOAD OPTIMIZER - Proecssing complete... Got processed allocation data" />
+
+					<log
+						message="LOAD OPTIMIZER - Pushing load optimized allocation data as payload in IDS message ..." />
+
+
 					<setProperty name="tmf_content_pay_load">
 						<simple>${bodyAs(String)}</simple>
 					</setProperty>
@@ -166,11 +181,11 @@
 						<constant>https://catalyst.tmf/ran-slicing/load-optimizer</constant>
 					</setProperty>
 
-					<log message="LOAD OPTIMIZER - Sending load optimization data..." />
+					<log message="LOAD OPTIMIZER - Sending load optimized allocation data..." />
 					<process ref="TMFArtifactResponseProcessor" />
 
 					<log
-						message="LOAD OPTIMIZER - Allocation Response sent successfully: ${body}" />
+						message="LOAD OPTIMIZER - Allocation data response sent successfully: ${body}" />
 
 				</when>
 				<otherwise>
