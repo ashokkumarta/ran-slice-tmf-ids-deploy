@@ -22,7 +22,7 @@ services:
     image: ashokkumarta/subscriber-1-demand-forecast
     networks:
       - ids-local
-  subscriber-optimizer-feedback-app:
+  subscriber-1-optimizer-feedback-app:
     image: ashokkumarta/subscriber-optimizer-feedback
     networks:
       - ids-local
