@@ -46,59 +46,6 @@
 
 
 
-		<route id="demand-forecast">
-			<from
-				uri="timer://demandForecastTimer?fixedRate=true&amp;period=100000&amp;delay=300000" />
-
-			<log
-				message="### DENAMD FORECAST - Initiating demand forecast push ###" />
-			<setProperty name="artifactUri">
-				<constant>https://catalyst.tmf/ran-slicing/demand-forecast</constant>
-			</setProperty>
-
-			<process ref="ArtifactRequestCreationProcessor" />
-			<log
-				message="### DENAMD FORECAST - Sending request to 'request for demand forecast' ###" />
-
-			<to
-				uri="idscp2client://csp:29292?awaitResponse=true&amp;connectionShareId=udConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
-			<process ref="TypeExtractionProcessor" />
-			<choice>
-				<when>
-					<simple>${exchangeProperty.ids-type} == 'ArtifactRequestMessage'</simple>
-					<log
-						message="### DENAMD FORECAST - Received 'request for demand forecast' ###" />
-
-					<log
-						message="DENAMD FORECAST - Generating demand forecast from subscriber-1-demand-forecast..." />
-
-					<to uri="http://subscriber-1-demand-forecast-app:9101?awaitResponse=true" />
-
-					<log
-						message="DENAMD FORECAST - Pushing demand forecast as payload in IDS response..." />
-					<setProperty name="tmf_content_pay_load">
-						<simple>${bodyAs(String)}</simple>
-					</setProperty>
-
-					<setProperty name="artifactUri">
-						<constant>https://catalyst.tmf/ran-slicing/demand-forecast</constant>
-					</setProperty>
-
-					<process ref="TMFArtifactResponseProcessor" />
-					<log
-						message="DENAMD FORECAST - Sending demand forecast to CSP:\n\n${body}" />
-					<to
-						uri="idscp2client://csp:29292?connectionShareId=udConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
-
-					<log
-						message="DENAMD FORECAST - Demand forecast sent to CSP successfully" />
-				</when>
-				<otherwise>
-					<log loggingLevel="ERROR"
-						message="DENAMD FORECAST - Expected ArtifactResponseMessage, but received:\n${body}\n### Header: ###\n${headers[idscp2-header]}" />
-				</otherwise>
-			</choice>
-		</route>
 
 		<route id="load-optimizer-contract">
 			<from
