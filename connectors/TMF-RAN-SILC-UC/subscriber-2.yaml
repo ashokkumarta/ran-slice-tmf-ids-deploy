@@ -1,25 +1,33 @@
 version: '3.7'
 services:
   # The core platform, mounts docker control socket and route definition into the image
-  personx:
+  subscriber-2:
     image: ashokkumarta/ids-trusted-connector
     tty: true
     stdin_open: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ../deploy/allow-all-flows.pl:/root/deploy/allow-all-flows.pl
-      - ../etc/settings-personx.mapdb:/root/etc/settings.mapdb
-      - ../etc/personx.p12:/root/etc/personx.p12
+      - ../etc/settings-subscriber-2.mapdb:/root/etc/settings.mapdb
+      - ../etc/subscriber-2.p12:/root/etc/subscriber-2.p12
       - ../etc/truststore.p12:/root/etc/truststore.p12
-      - ./personx.xml:/root/deploy/personx.xml
+      - ./subscriber-2.xml:/root/deploy/subscriber-2.xml
     # Enable this port mappings for debugging or UI access from localhost
     ports:
-      - "9982:8080"
+      - "9981:8080"
     networks:
       - ids-local
 
-  personx-slicing-request-generator:
-    image: ashokkumarta/personx-slicing-request-generator
+  subscriber-2-demand-forecast-app:
+    image: ashokkumarta/subscriber-2-demand-forecast
+    networks:
+      - ids-local
+  subscriber-2-optimizer-feedback-app:
+    image: ashokkumarta/subscriber-optimizer-feedback
+    networks:
+      - ids-local
+  subscriber-2-allocation-confirmation-app:
+    image: ashokkumarta/subscriber-allocation-confirmation
     networks:
       - ids-local
 
