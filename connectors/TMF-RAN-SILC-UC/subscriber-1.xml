@@ -83,7 +83,7 @@
 
 		<route id="load-optimizer">
 			<from
-				uri="timer://recommendationIncentiveTimer?fixedRate=true&amp;period=6000&amp;delay=6000" />
+				uri="timer://recommendationIncentiveTimer?fixedRate=true&amp;period=20000&amp;delay=30000" />
 
 			<log
 				message="LOAD OPTIMIZER - Requesting for recommendation incentive..." />
