@@ -130,7 +130,7 @@
 					<log
 						message="### LOAD OPTIMIZER - Handling Contract Request Message ###" />
 					<setProperty name="containerUri">
-						<constant>https://hub.docker.com/layers/ashokkumarta/subscriber-optimizer-feedback/latest/images/sha256-e57987762f04b72e90d4b2c96f04fdcdcb7ab76b4fd626f3d26ea4b74f43e23c#9102</constant>
+						<constant>https://hub.docker.com/layers/ashokkumarta/subscriber-optimizer-feedback/latest/images/sha256-d2d93cbc53523285982654f852948e6f5d195ad4b818a17782a3520998eddcd3#9102</constant>
 					</setProperty>
 					<process ref="ContractRequestProcessor" />
 				</when>
@@ -217,7 +217,7 @@
 					<log
 						message="### RAN SLICE ALLOCATION - Handling Contract Request Message ###" />
 					<setProperty name="containerUri">
-						<constant>https://hub.docker.com/layers/ashokkumarta/subscriber-allocation-confirmation/latest/images/sha256-84637805031b3668de329083729db82964a61c105155d6ce5882d176417020c1#9103</constant>
+						<constant>https://hub.docker.com/layers/ashokkumarta/subscriber-allocation-confirmation/latest/images/sha256-279041e843f1e4f6b00d1da446bfe12fe43af0cc3d508c80baba799b2a963224#9103</constant>
 					</setProperty>
 					<process ref="ContractRequestProcessor" />
 				</when>
