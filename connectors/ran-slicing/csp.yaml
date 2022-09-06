@@ -1,16 +1,16 @@
 version: '3.7'
 services:
   # The core platform, mounts docker control socket and route definition into the image
-  csp:
+  orange:
     image: ashokkumarta/ids-trusted-connector
     tty: true
     stdin_open: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ../../deploy/allow-all-flows.pl:/root/deploy/allow-all-flows.pl
-      - ../../etc/settings-csp.mapdb:/root/etc/settings.mapdb
-      - ../../etc/csp.p12:/root/etc/csp.p12
-      - ../../etc/truststore.p12:/root/etc/truststore.p12
+      - ../deploy/allow-all-flows.pl:/root/deploy/allow-all-flows.pl
+      - ../etc/settings-csp.mapdb:/root/etc/settings.mapdb
+      - ../etc/orange.p12:/root/etc/orange.p12
+      - ../etc/truststore.p12:/root/etc/truststore.p12
       - ./csp.xml:/root/deploy/csp.xml
     # Enable this port mappings for debugging or UI access from localhost
     ports:
@@ -18,15 +18,15 @@ services:
     networks:
       - ids-local
 
-  csp-resource-management-app:
+  orange-resource-management-app:
     image: ashokkumarta/csp-resource-management
     networks:
       - ids-local
-  csp-load-optimizer-app:
+  orange-load-optimizer-app:
     image: ashokkumarta/csp-load-optimizer
     networks:
       - ids-local
-  csp-ran-slice-allocation-app:
+  orange-ran-slice-allocation-app:
     image: ashokkumarta/csp-ran-slice-allocation
     networks:
       - ids-local
