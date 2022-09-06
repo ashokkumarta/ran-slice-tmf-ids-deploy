@@ -59,7 +59,7 @@
 				message="### DENAMD FORECAST - Requesting to 'request for contract' ###" />
 			<process ref="ContractRequestCreationProcessor" />
 			<to
-				uri="idscp2client://orange-csp:29292?awaitResponse=true&amp;connectionShareId=dfConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+				uri="idscp2client://csp:29292?awaitResponse=true&amp;connectionShareId=dfConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 
 			<process ref="TypeExtractionProcessor" />
 			<choice>
