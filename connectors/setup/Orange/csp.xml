@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:camel="http://camel.apache.org/schema/spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+          http://camel.apache.org/schema/spring
+          http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+	<camel:sslContextParameters id="sslContext"
+		certAlias="1.0.1">
+		<camel:keyManagers keyPassword="password">
+			<camel:keyStore resource="etc/csp.p12"
+				password="password" />
+		</camel:keyManagers>
+		<camel:trustManagers>
+			<camel:keyStore resource="etc/truststore.p12"
+				password="password" />
+		</camel:trustManagers>
+	</camel:sslContextParameters>
+
+	<bean id="ArtifactRequestCreationProcessor"
+		class="de.fhg.aisec.ids.camel.idscp2.processors.ArtifactRequestCreationProcessor" />
+	<bean id="ContractRequestProcessor"
+		class="de.fhg.aisec.ids.camel.idscp2.processors.ContractRequestProcessor" />
+	<bean id="ContractAgreementReceiverProcessor"
+		class="de.fhg.aisec.ids.camel.idscp2.processors.ContractAgreementReceiverProcessor" />
+	<bean id="TypeExtractionProcessor"
+		class="de.fhg.aisec.ids.camel.idscp2.processors.IdsMessageTypeExtractionProcessor" />
+	<bean id="TMFArtifactResponseProcessor"
+		class="tmf.ids.processors.TMFArtifactResponseProcessor" />
+	<bean id="TMFArtifactInitProcessor"
+		class="tmf.ids.processors.TMFArtifactInitProcessor" />
+	<bean id="ContractRequestCreationProcessor"
+		class="de.fhg.aisec.ids.camel.idscp2.processors.ContractRequestCreationProcessor" />
+	<bean id="ContractResponseProcessor"
+		class="de.fhg.aisec.ids.camel.idscp2.processors.ContractResponseProcessor" />
+
+	<camelContext
+		xmlns="http://camel.apache.org/schema/spring">
+
+		<route id="csp-demand-forecast-server">
+			<from
+				uri="idscp2server://0.0.0.0:29292?sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+			<process ref="TypeExtractionProcessor" />
+			<choice>
+				<when>
+					<simple>${exchangeProperty.ids-type} == 'ContractRequestMessage'</simple>
+					<log
+						message="### DEMAND FORECAST - Received request to 'request for contract' ###" />
+					<setProperty name="artifactUri">
+						<constant>https://catalyst.tmf/ran-slicing/demand-forecast</constant>
+					</setProperty>
+					<process ref="TMFArtifactInitProcessor" />
+
+					<log message="### DEMAND FORECAST - Initiating Contract Request ###" />
+
+					<process ref="ContractRequestCreationProcessor" />
+				</when>
+				<when>
+					<simple>${exchangeProperty.ids-type} == 'ContractResponseMessage'</simple>
+
+					<log
+						message="### DEMAND FORECAST - Handling Contract Response - ContractResponseMessage ###" />
+					<process ref="ContractResponseProcessor" />
+				</when>
+				<when>
+					<simple>${exchangeProperty.ids-type} == 'ArtifactRequestMessage'</simple>
+					<log
+						message="### DEMAND FORECAST - Handling request to 'Request for Demand Forecast' ###" />
+
+					<setProperty name="artifactUri">
+						<constant>https://catalyst.tmf/ran-slicing/demand-forecast</constant>
+					</setProperty>
+
+					<process ref="ArtifactRequestCreationProcessor" />
+					<log message="DEMAND FORECAST - Sending request for Demand Forecast" />
+				</when>
+				<when>
+					<simple>${exchangeProperty.ids-type} == 'ArtifactResponseMessage'</simple>
+					<log message="DEMAND FORECAST - Received forecast data:\n${body}\n" />
+
+					<log message="DEMAND FORECAST - Processing..." />
+
+
+					<setHeader name="CamelHttpMethod">
+						<constant>POST</constant>
+					</setHeader>
+					<setHeader name="content-type">
+						<simple>text/plain</simple>
+					</setHeader>
+					<to uri="http://csp-resource-management-app:9001?awaitResponse=true" />
+
+					<log
+						message="DEMAND FORECAST - Response from accepting demand forecast: \n${body}" />
+					<log message="DEMAND FORECAST - Received demand forecast from subscriber - Proecssing complete." />
+
+					<!-- Set body to null after data transfer -->
+					<removeHeader headerName="idscp2-header" />
+					<setBody>
+						<simple>${null}</simple>
+					</setBody>
+				</when>
+				<otherwise>
+					<log loggingLevel="ERROR"
+						message="### DEMAND FORECAST - Server received unexpected message (otherwise branch):\n${body}\n### Header: ###\n${headers[idscp2-header]}" />
+					<removeHeader headerName="idscp2-header" />
+					<setBody>
+						<simple>${null}</simple>
+					</setBody>
+				</otherwise>
+			</choice>
+		</route>
+
+		<route id="load-optimizer-server">
+			<from
+				uri="idscp2server://0.0.0.0:29293?sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+			<process ref="TypeExtractionProcessor" />
+			<choice>
+				<when>
+					<simple>${exchangeProperty.ids-type} == 'ContractRequestMessage'</simple>
+
+					<log
+						message="### LOAD OPTIMIZER - Initializing load optimizer artifact trust ###" />
+					<setProperty name="artifactUri">
+						<constant>https://catalyst.tmf/ran-slicing/load-optimizer</constant>
+					</setProperty>
+					<process ref="TMFArtifactInitProcessor" />
+
+					<log
+						message="### LOAD OPTIMIZER - Handling Contract Request Message ###" />
+					<setProperty name="containerUri">
+						<constant>https://hub.docker.com/layers/ashokkumarta/subscriber-optimizer-feedback/latest/images/sha256-d2d93cbc53523285982654f852948e6f5d195ad4b818a17782a3520998eddcd3#9102</constant>
+					</setProperty>
+					<process ref="ContractRequestProcessor" />
+				</when>
+				<when>
+					<simple>${exchangeProperty.ids-type} == 'ContractAgreementMessage'</simple>
+					<log
+						message="### LOAD OPTIMIZER - Handling Contract Agreement Message ###" />
+					<!-- Only processing of incoming request must be performed, no reply -->
+					<process ref="ContractAgreementReceiverProcessor" />
+					<removeHeader headerName="idscp2-header" />
+					<setBody>
+						<simple>${null}</simple>
+					</setBody>
+				</when>
+				<when>
+					<simple>${exchangeProperty.ids-type} == 'ArtifactRequestMessage'</simple>
+
+					<log
+						message="LOAD OPTIMIZER - Received request for load optimizer ..." />
+
+					<log
+						message="LOAD OPTIMIZER - Invoking csp-load-optimizer app to get load optimization data..." />
+					<to
+						uri="http://csp-load-optimizer-app:9002?awaitResponse=true" />
+
+					<log
+						message="LOAD OPTIMIZER - Invoking csp-load-optimizer app to process optmized allocation details..." />
+
+					<setHeader name="CamelHttpMethod">
+						<constant>PUT</constant>
+					</setHeader>
+					<setHeader name="content-type">
+						<simple>text/plain</simple>
+					</setHeader>
+					<to
+						uri="http://csp-load-optimizer-app:9002?awaitResponse=true" />
+					<log message="LOAD OPTIMIZER - Proecssing complete... Got processed allocation data" />
+
+					<log
+						message="LOAD OPTIMIZER - Pushing load optimized allocation data as payload in IDS message ..." />
+
+
+					<setProperty name="tmf_content_pay_load">
+						<simple>${bodyAs(String)}</simple>
+					</setProperty>
+
+					<setProperty name="artifactUri">
+						<constant>https://catalyst.tmf/ran-slicing/load-optimizer</constant>
+					</setProperty>
+
+					<log message="LOAD OPTIMIZER - Sending load optimized allocation data..." />
+					<process ref="TMFArtifactResponseProcessor" />
+
+					<log
+						message="LOAD OPTIMIZER - Allocation data response sent successfully: ${body}" />
+
+				</when>
+				<otherwise>
+					<log loggingLevel="ERROR"
+						message="### LOAD OPTIMIZER - Server received unexpected message (otherwise branch):\n${body}\n### Header: ###\n${headers[idscp2-header]}" />
+					<removeHeader headerName="idscp2-header" />
+					<setBody>
+						<simple>${null}</simple>
+					</setBody>
+				</otherwise>
+			</choice>
+		</route>
+
+		<route id="ran-slice-allocation-server">
+			<from
+				uri="idscp2server://0.0.0.0:29294?sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+			<process ref="TypeExtractionProcessor" />
+			<choice>
+				<when>
+					<simple>${exchangeProperty.ids-type} == 'ContractRequestMessage'</simple>
+
+					<log
+						message="### RAN SLICE ALLOCATION - Initializing ran slice allocation artifact trust ###" />
+					<setProperty name="artifactUri">
+						<constant>https://catalyst.tmf/ran-slicing/ran-slice-allocation</constant>
+					</setProperty>
+					<process ref="TMFArtifactInitProcessor" />
+
+					<log
+						message="### RAN SLICE ALLOCATION - Handling Contract Request Message ###" />
+					<setProperty name="containerUri">
+						<constant>https://hub.docker.com/layers/ashokkumarta/subscriber-allocation-confirmation/latest/images/sha256-279041e843f1e4f6b00d1da446bfe12fe43af0cc3d508c80baba799b2a963224#9103</constant>
+					</setProperty>
+					<process ref="ContractRequestProcessor" />
+				</when>
+				<when>
+					<simple>${exchangeProperty.ids-type} == 'ContractAgreementMessage'</simple>
+					<log
+						message="### RAN SLICE ALLOCATION - Handling Contract Agreement Message ###" />
+					<!-- Only processing of incoming request must be performed, no reply -->
+					<process ref="ContractAgreementReceiverProcessor" />
+					<removeHeader headerName="idscp2-header" />
+					<setBody>
+						<simple>${null}</simple>
+					</setBody>
+				</when>
+				<when>
+					<simple>${exchangeProperty.ids-type} == 'ArtifactRequestMessage'</simple>
+
+					<log
+						message="RAN SLICE ALLOCATION - Received request for ran slice allocation status..." />
+
+					<log
+						message="RAN SLICE ALLOCATION - Invoking csp-ran-slice-allocation app to get ran slice allocation data..." />
+					<to
+						uri="http://csp-ran-slice-allocation-app:9003?awaitResponse=true" />
+
+					<log
+						message="RAN SLICE ALLOCATION - Invoking csp-ran-slice-allocation app to process ran slice allocation status..." />
+
+					<setHeader name="CamelHttpMethod">
+						<constant>PUT</constant>
+					</setHeader>
+					<setHeader name="content-type">
+						<simple>text/plain</simple>
+					</setHeader>
+					<to
+						uri="http://csp-ran-slice-allocation-app:9003?awaitResponse=true" />
+					<log message="RAN SLICE ALLOCATION - Proecssing complete... Got ran slice allocation status" />
+
+					<log
+						message="RAN SLICE ALLOCATION - Pushing ran slice allocation status details as payload in IDS message ..." />
+
+
+					<setProperty name="tmf_content_pay_load">
+						<simple>${bodyAs(String)}</simple>
+					</setProperty>
+
+					<setProperty name="artifactUri">
+						<constant>https://catalyst.tmf/ran-slicing/ran-slice-allocation</constant>
+					</setProperty>
+
+					<log message="RAN SLICE ALLOCATION - Sending ran slice allocation status..." />
+					<process ref="TMFArtifactResponseProcessor" />
+
+					<log
+						message="RAN SLICE ALLOCATION - Ran slice allocation status response sent successfully: ${body}" />
+
+				</when>
+				<otherwise>
+					<log loggingLevel="ERROR"
+						message="### RAN SLICE ALLOCATION - Server received unexpected message (otherwise branch):\n${body}\n### Header: ###\n${headers[idscp2-header]}" />
+					<removeHeader headerName="idscp2-header" />
+					<setBody>
+						<simple>${null}</simple>
+					</setBody>
+				</otherwise>
+			</choice>
+		</route>
+
+	</camelContext>
+</beans>
