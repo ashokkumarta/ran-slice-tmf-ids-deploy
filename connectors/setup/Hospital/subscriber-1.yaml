@@ -7,10 +7,10 @@ services:
     stdin_open: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ../deploy/allow-all-flows.pl:/root/deploy/allow-all-flows.pl
-      - ../etc/settings-subscriber-1.mapdb:/root/etc/settings.mapdb
-      - ../etc/subscriber-1.p12:/root/etc/subscriber-1.p12
-      - ../etc/truststore.p12:/root/etc/truststore.p12
+      - ../../deploy/allow-all-flows.pl:/root/deploy/allow-all-flows.pl
+      - ../../etc/settings-subscriber-1.mapdb:/root/etc/settings.mapdb
+      - ../../etc/subscriber-1.p12:/root/etc/subscriber-1.p12
+      - ../../etc/truststore.p12:/root/etc/truststore.p12
       - ./subscriber-1.xml:/root/deploy/subscriber-1.xml
     # Enable this port mappings for debugging or UI access from localhost
     ports:
