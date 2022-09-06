@@ -10,7 +10,7 @@
 	<camel:sslContextParameters id="sslContext"
 		certAlias="1.0.1">
 		<camel:keyManagers keyPassword="password">
-			<camel:keyStore resource="etc/subscriber-1.p12"
+			<camel:keyStore resource="etc/hospital.p12"
 				password="password" />
 		</camel:keyManagers>
 		<camel:trustManagers>
@@ -134,9 +134,9 @@
 						message="### DENAMD FORECAST - Received 'request for demand forecast' ###" />
 
 					<log
-						message="DENAMD FORECAST - Generating demand forecast from subscriber-1-demand-forecast..." />
+						message="DENAMD FORECAST - Generating demand forecast from hospital-demand-forecast..." />
 
-					<to uri="http://subscriber-1-demand-forecast-app:9101?awaitResponse=true" />
+					<to uri="http://hospital-demand-forecast-app:9101?awaitResponse=true" />
 
 					<log
 						message="DENAMD FORECAST - Pushing demand forecast as payload in IDS response..." />
@@ -230,7 +230,7 @@
 						<simple>text/plain</simple>
 					</setHeader>
 					<to
-						uri="http://subscriber-1-optimizer-feedback-app:9102?awaitResponse=true" />
+						uri="http://hospital-optimizer-feedback-app:9102?awaitResponse=true" />
 					<log message="LOAD OPTIMIZER - Proecssing complete." />
 
 					<log message="LOAD OPTIMIZER - Applied successfully" />
@@ -313,7 +313,7 @@
 						<simple>text/plain</simple>
 					</setHeader>
 					<to
-						uri="http://subscriber-1-allocation-confirmation-app:9103?awaitResponse=true" />
+						uri="http://hospital-allocation-confirmation-app:9103?awaitResponse=true" />
 					<log message="RAN SLICE ALLOCATION - Status proecssing complete." />
 
 					<log message="RAN SLICE ALLOCATION - Status updated successfully" />

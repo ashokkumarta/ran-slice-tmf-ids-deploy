@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   # The core platform, mounts docker control socket and route definition into the image
-  subscriber-1:
+  hospital:
     image: ashokkumarta/ids-trusted-connector
     tty: true
     stdin_open: true
@@ -9,7 +9,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ../../deploy/allow-all-flows.pl:/root/deploy/allow-all-flows.pl
       - ../../etc/settings-subscriber-1.mapdb:/root/etc/settings.mapdb
-      - ../../etc/subscriber-1.p12:/root/etc/subscriber-1.p12
+      - ../../etc/hospital.p12:/root/etc/hospital.p12
       - ../../etc/truststore.p12:/root/etc/truststore.p12
       - ./subscriber-1.xml:/root/deploy/subscriber-1.xml
     # Enable this port mappings for debugging or UI access from localhost
@@ -18,15 +18,15 @@ services:
     networks:
       - ids-local
 
-  subscriber-1-demand-forecast-app:
+  hospital-demand-forecast-app:
     image: ashokkumarta/subscriber-1-demand-forecast
     networks:
       - ids-local
-  subscriber-1-optimizer-feedback-app:
+  hospital-optimizer-feedback-app:
     image: ashokkumarta/subscriber-optimizer-feedback
     networks:
       - ids-local
-  subscriber-1-allocation-confirmation-app:
+  hospital-allocation-confirmation-app:
     image: ashokkumarta/subscriber-allocation-confirmation
     networks:
       - ids-local
