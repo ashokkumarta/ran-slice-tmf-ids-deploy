@@ -39,7 +39,7 @@
 	<camelContext
 		xmlns="http://camel.apache.org/schema/spring">
 
-		<route id="csp-demand-forecast-server">
+		<route id="orange-demand-forecast-server">
 			<from
 				uri="idscp2server://0.0.0.0:29292?sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 			<process ref="TypeExtractionProcessor" />
@@ -89,7 +89,7 @@
 					<setHeader name="content-type">
 						<simple>text/plain</simple>
 					</setHeader>
-					<to uri="http://csp-resource-management-app:9001?awaitResponse=true" />
+					<to uri="http://orange-resource-management-app:9001?awaitResponse=true" />
 
 					<log
 						message="DEMAND FORECAST - Response from accepting demand forecast: \n${body}" />
@@ -152,12 +152,12 @@
 						message="LOAD OPTIMIZER - Received request for load optimizer ..." />
 
 					<log
-						message="LOAD OPTIMIZER - Invoking csp-load-optimizer app to get load optimization data..." />
+						message="LOAD OPTIMIZER - Invoking orange-load-optimizer app to get load optimization data..." />
 					<to
-						uri="http://csp-load-optimizer-app:9002?awaitResponse=true" />
+						uri="http://orange-load-optimizer-app:9002?awaitResponse=true" />
 
 					<log
-						message="LOAD OPTIMIZER - Invoking csp-load-optimizer app to process optmized allocation details..." />
+						message="LOAD OPTIMIZER - Invoking orange-load-optimizer app to process optmized allocation details..." />
 
 					<setHeader name="CamelHttpMethod">
 						<constant>PUT</constant>
@@ -166,7 +166,7 @@
 						<simple>text/plain</simple>
 					</setHeader>
 					<to
-						uri="http://csp-load-optimizer-app:9002?awaitResponse=true" />
+						uri="http://orange-load-optimizer-app:9002?awaitResponse=true" />
 					<log message="LOAD OPTIMIZER - Proecssing complete... Got processed allocation data" />
 
 					<log
@@ -239,12 +239,12 @@
 						message="RAN SLICE ALLOCATION - Received request for ran slice allocation status..." />
 
 					<log
-						message="RAN SLICE ALLOCATION - Invoking csp-ran-slice-allocation app to get ran slice allocation data..." />
+						message="RAN SLICE ALLOCATION - Invoking orange-ran-slice-allocation app to get ran slice allocation data..." />
 					<to
-						uri="http://csp-ran-slice-allocation-app:9003?awaitResponse=true" />
+						uri="http://orange-ran-slice-allocation-app:9003?awaitResponse=true" />
 
 					<log
-						message="RAN SLICE ALLOCATION - Invoking csp-ran-slice-allocation app to process ran slice allocation status..." />
+						message="RAN SLICE ALLOCATION - Invoking orange-ran-slice-allocation app to process ran slice allocation status..." />
 
 					<setHeader name="CamelHttpMethod">
 						<constant>PUT</constant>
@@ -253,7 +253,7 @@
 						<simple>text/plain</simple>
 					</setHeader>
 					<to
-						uri="http://csp-ran-slice-allocation-app:9003?awaitResponse=true" />
+						uri="http://orange-ran-slice-allocation-app:9003?awaitResponse=true" />
 					<log message="RAN SLICE ALLOCATION - Proecssing complete... Got ran slice allocation status" />
 
 					<log

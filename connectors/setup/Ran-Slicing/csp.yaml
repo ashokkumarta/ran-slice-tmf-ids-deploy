@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   # The core platform, mounts docker control socket and route definition into the image
-  csp:
+  orange:
     image: ashokkumarta/ids-trusted-connector
     tty: true
     stdin_open: true
@@ -18,15 +18,15 @@ services:
     networks:
       - ids-local
 
-  csp-resource-management-app:
+  orange-resource-management-app:
     image: ashokkumarta/csp-resource-management
     networks:
       - ids-local
-  csp-load-optimizer-app:
+  orange-load-optimizer-app:
     image: ashokkumarta/csp-load-optimizer
     networks:
       - ids-local
-  csp-ran-slice-allocation-app:
+  orange-ran-slice-allocation-app:
     image: ashokkumarta/csp-ran-slice-allocation
     networks:
       - ids-local

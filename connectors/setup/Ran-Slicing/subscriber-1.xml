@@ -59,7 +59,7 @@
 				message="### DENAMD FORECAST - Requesting to 'request for contract' ###" />
 			<process ref="ContractRequestCreationProcessor" />
 			<to
-				uri="idscp2client://csp:29292?awaitResponse=true&amp;connectionShareId=dfConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+				uri="idscp2client://orange:29292?awaitResponse=true&amp;connectionShareId=dfConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 
 			<process ref="TypeExtractionProcessor" />
 			<choice>
@@ -73,7 +73,7 @@
 					</setProperty>
 					<process ref="ContractRequestProcessor" />
 					<to
-						uri="idscp2client://csp:29292?awaitResponse=true&amp;connectionShareId=dfConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+						uri="idscp2client://orange:29292?awaitResponse=true&amp;connectionShareId=dfConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 
 					<process ref="TypeExtractionProcessor" />
 					<choice>
@@ -125,7 +125,7 @@
 				message="### DENAMD FORECAST - Sending request to 'request for demand forecast' ###" />
 
 			<to
-				uri="idscp2client://csp:29292?awaitResponse=true&amp;connectionShareId=dfConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+				uri="idscp2client://orange:29292?awaitResponse=true&amp;connectionShareId=dfConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 			<process ref="TypeExtractionProcessor" />
 			<choice>
 				<when>
@@ -152,7 +152,7 @@
 					<log
 						message="DENAMD FORECAST - Sending demand forecast to CSP:\n\n${body}" />
 					<to
-						uri="idscp2client://csp:29292?connectionShareId=dfConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+						uri="idscp2client://orange:29292?connectionShareId=dfConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 
 					<log
 						message="DENAMD FORECAST - Demand forecast sent to CSP successfully" />
@@ -177,7 +177,7 @@
 			
 			<process ref="ContractRequestCreationProcessor" />
 			<to
-				uri="idscp2client://csp:29293?awaitResponse=true&amp;connectionShareId=loConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+				uri="idscp2client://orange:29293?awaitResponse=true&amp;connectionShareId=loConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 			<process ref="TypeExtractionProcessor" />
 			<choice>
 				<when>
@@ -186,7 +186,7 @@
 						message="### LOAD OPTIMIZER - Handling Contract Response ###" />
 					<process ref="ContractResponseProcessor" />
 					<to
-						uri="idscp2client://csp:29293?connectionShareId=loConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+						uri="idscp2client://orange:29293?connectionShareId=loConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 				</when>
 				<otherwise>
 					<log loggingLevel="ERROR"
@@ -211,7 +211,7 @@
 
 			<process ref="ArtifactRequestCreationProcessor" />
 			<to
-				uri="idscp2client://csp:29293?awaitResponse=true&amp;connectionShareId=loConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+				uri="idscp2client://orange:29293?awaitResponse=true&amp;connectionShareId=loConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 			<process ref="TypeExtractionProcessor" />
 			<choice>
 				<when>
@@ -260,7 +260,7 @@
 			
 			<process ref="ContractRequestCreationProcessor" />
 			<to
-				uri="idscp2client://csp:29294?awaitResponse=true&amp;connectionShareId=rsaConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+				uri="idscp2client://orange:29294?awaitResponse=true&amp;connectionShareId=rsaConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 			<process ref="TypeExtractionProcessor" />
 			<choice>
 				<when>
@@ -269,7 +269,7 @@
 						message="### RAN SLICE ALLOCATION - Handling Contract Response ###" />
 					<process ref="ContractResponseProcessor" />
 					<to
-						uri="idscp2client://csp:29293?connectionShareId=rsaConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+						uri="idscp2client://orange:29293?connectionShareId=rsaConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 				</when>
 				<otherwise>
 					<log loggingLevel="ERROR"
@@ -294,7 +294,7 @@
 
 			<process ref="ArtifactRequestCreationProcessor" />
 			<to
-				uri="idscp2client://csp:29293?awaitResponse=true&amp;connectionShareId=rsaConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
+				uri="idscp2client://orange:29293?awaitResponse=true&amp;connectionShareId=rsaConnection&amp;sslContextParameters=#sslContext&amp;useIdsMessages=true" />
 			<process ref="TypeExtractionProcessor" />
 			<choice>
 				<when>
