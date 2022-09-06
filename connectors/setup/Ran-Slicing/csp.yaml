@@ -9,7 +9,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ../../deploy/allow-all-flows.pl:/root/deploy/allow-all-flows.pl
       - ../../etc/settings-csp.mapdb:/root/etc/settings.mapdb
-      - ../../etc/csp.p12:/root/etc/csp.p12
+      - ../../etc/orange.p12:/root/etc/orange.p12
       - ../../etc/truststore.p12:/root/etc/truststore.p12
       - ./csp.xml:/root/deploy/csp.xml
     # Enable this port mappings for debugging or UI access from localhost
